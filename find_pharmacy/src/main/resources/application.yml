@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: local # default
+    group:
+      local:
+        - common
+      prod:
+        - common
 
 ---
 spring:
