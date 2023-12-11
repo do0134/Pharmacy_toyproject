@@ -1,8 +1,9 @@
 package com.example.find_pharmacy.api.pharmacy.service
 
 import com.example.find_pharmacy.api.AbstractIntegrationContainerBaseTest
-import com.example.find_pharmacy.api.pharmacy.entity.Pharmacy
-import com.example.find_pharmacy.api.pharmacy.repository.PharmacyRepository
+import com.example.find_pharmacy.pharmacy.entity.Pharmacy
+import com.example.find_pharmacy.pharmacy.repository.PharmacyRepository
+import com.example.find_pharmacy.pharmacy.service.PharmacyRepositoryService
 import org.springframework.beans.factory.annotation.Autowired
 
 class PharmacyRepositoryServiceTest extends AbstractIntegrationContainerBaseTest {

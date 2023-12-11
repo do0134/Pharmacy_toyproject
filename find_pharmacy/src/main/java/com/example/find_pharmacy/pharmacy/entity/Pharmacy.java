@@ -1,4 +1,4 @@
-package com.example.find_pharmacy.api.pharmacy.entity;
+package com.example.find_pharmacy.pharmacy.entity;
 
 import com.example.find_pharmacy.api.BaseTimeEntity;
 import lombok.AllArgsConstructor;
