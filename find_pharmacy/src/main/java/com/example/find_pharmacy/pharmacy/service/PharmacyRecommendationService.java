@@ -5,11 +5,14 @@ import com.example.find_pharmacy.api.dto.KakaoApiResponseDto;
 import com.example.find_pharmacy.api.service.KakaoAddressSearchService;
 import com.example.find_pharmacy.direction.dto.OutputDto;
 import com.example.find_pharmacy.direction.entity.Direction;
+import com.example.find_pharmacy.direction.service.Base62Service;
 import com.example.find_pharmacy.direction.service.DirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +25,15 @@ import java.util.stream.Collectors;
 public class PharmacyRecommendationService {
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
+    private final Base62Service base62Service;
+
+    /**
+     * 위도, 경도를 콤마(,)로 구분해서
+     */
+    private static final String ROAD_VIEW_BASE_URL = "https://map.kakao.com/link/roadview/";
+    @Value("${pharmacy.recommendation.base.url}")
+    private String baseUrl;
+
 
     public List<OutputDto> recommendPharmacyList(String address) {
         KakaoApiResponseDto kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
@@ -41,13 +53,15 @@ public class PharmacyRecommendationService {
     }
 
     private OutputDto convertToOutputDto(Direction direction) {
+
         return OutputDto.builder()
                 .pharmacyAddress(direction.getTargetAddress())
                 .pharmacyName(direction.getTargetPharmacyName())
-                .directUrl("todo")
-                .roadViewUrl("todo")
+                .directionUrl(baseUrl+base62Service.encodeDirectionId(direction.getId() ))
+                .roadViewUrl(ROAD_VIEW_BASE_URL + direction.getTargetLatitude()+","+direction.getTargetLongitude())
                 .distance(String.format("%.2f km",direction.getDistance()))
                 .build();
 
     }
+
 }

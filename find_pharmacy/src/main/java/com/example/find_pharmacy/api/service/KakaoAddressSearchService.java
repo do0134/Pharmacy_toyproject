@@ -1,5 +1,6 @@
 package com.example.find_pharmacy.api.service;
 
+import com.example.find_pharmacy.api.dto.DocumentDto;
 import com.example.find_pharmacy.api.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -42,6 +44,7 @@ public class KakaoAddressSearchService {
         HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
 
         URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
+
         return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
     }
 

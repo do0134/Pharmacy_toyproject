@@ -10,7 +10,7 @@ import lombok.Getter;
 public class OutputDto {
     private String pharmacyName;
     private String pharmacyAddress;
-    private String directUrl;
+    private String directionUrl;
     private String roadViewUrl;
     private String distance;
 }

@@ -30,6 +30,8 @@ public class DirectionService {
     private final DirectionRepository directionRepository;
     private final KakaoCategorySearchService kakaoCategorySearchService;
 
+    private final Base62Service base62Service;
+
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
         if (CollectionUtils.isEmpty(directionList)) {
@@ -62,8 +64,7 @@ public class DirectionService {
     }
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto documentDto) {
         if (Objects.isNull(documentDto)) return Collections.emptyList();
-
-        return kakaoCategorySearchService
+        List<Direction> directionList = kakaoCategorySearchService
                 .requestPharmacyCategorySearch(documentDto.getLatitude(),documentDto.getLongitude(),RADIUS_KM)
                 .getDocumentDtoList()
                 .stream().map(resultDocumentDto ->
@@ -81,6 +82,8 @@ public class DirectionService {
                                 .build())
                 .limit(MAX_SEARCH_COUNT)
                 .collect(Collectors.toList());
+
+        return directionList;
     }
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         // 위도와 경도를 라디안으로 변환
@@ -100,5 +103,10 @@ public class DirectionService {
         double distance = EARTH_RADIUS_KM * c;
 
         return distance;
+    }
+
+    public Direction findById(String encodedId) {
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        return directionRepository.findById(decodedId).orElse(null);
     }
 }
