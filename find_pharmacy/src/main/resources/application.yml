@@ -61,4 +61,4 @@ spring:
 pharmacy:
   recommendation:
     base:
-      url: http://pharmacy-recommendation-app:8080/dir/
+      url: http://43.203.61.155:8080/dir/
